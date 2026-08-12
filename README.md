@@ -4,8 +4,6 @@ A full-stack digital wallet application built with **Node.js**, **Express**, **M
 
 ---
 
----
-
 ## Features
 
 ### User Management
