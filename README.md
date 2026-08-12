@@ -1,4 +1,4 @@
-# 💸 PayTM Clone - Digital Wallet Application
+# PayTM Clone - Digital Wallet Application
 
 A full-stack digital wallet application built with **Node.js**, **Express**, **MongoDB**, and **React**. Users can sign up, manage their accounts, search for other users, and transfer money securely with atomic transactions.
 
@@ -6,38 +6,38 @@ A full-stack digital wallet application built with **Node.js**, **Express**, **M
 
 ## Table of Contents
 
-- [Features](#-features)
-- [Tech Stack](#-tech-stack)
-- [Project Structure](#-project-structure)
-- [Getting Started](#-getting-started)
-- [API Documentation](#-api-documentation)
-- [Database Schema](#-database-schema)
-- [Security Features](#-security-features)
-- [Testing](#-testing)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [API Documentation](#api-documentation)
+- [Database Schema](#database-schema)
+- [Security Features](#security-features)
+- [Testing](#testing)
 
 ---
 
 ## Features
 
 ### User Management
-- ✅ User registration with email validation
-- ✅ Secure login with JWT authentication
-- ✅ Update user profile (name, password)
-- ✅ Search users by name (partial matching)
+- User registration with email validation
+- Secure login with JWT authentication
+- Update user profile (name, password)
+- Search users by name (partial matching)
 
 ### Account & Transactions
-- ✅ Auto-create account with random balance (₹1 - ₹10,000) on signup
-- ✅ View account balance
-- ✅ Transfer money to other users
-- ✅ Atomic transactions with MongoDB sessions
-- ✅ Insufficient balance validation
+- Auto-create account with random balance (Rs.1 - Rs.10,000) on signup
+- View account balance
+- Transfer money to other users
+- Atomic transactions with MongoDB sessions
+- Insufficient balance validation
 
 ### Security
-- ✅ Password hashing with bcrypt
-- ✅ JWT token-based authentication
-- ✅ Protected routes with auth middleware
-- ✅ CORS enabled
-- ✅ Input validation with Zod
+- Password hashing with bcrypt
+- JWT token-based authentication
+- Protected routes with auth middleware
+- CORS enabled
+- Input validation with Zod
 
 ---
 
@@ -174,7 +174,7 @@ http://localhost:3001/api/v1
 
 **Notes:**
 - Creates user account
-- Automatically creates wallet account with random balance (₹1-₹10,000)
+- Automatically creates wallet account with random balance (Rs.1 - Rs.10,000)
 - Returns JWT token
 - Names must be at least 6 characters
 
@@ -480,13 +480,22 @@ This project is open source and available under the MIT License.
 
 ## Author
 
-Built with ❤️ by Tirth
+Built by Tirth
 
 ---
 
 ## Future Enhancements
 
-idk tbh, I'll just switch to bun and ts ig?
+- Transaction history
+- Email notifications
+- Two-factor authentication
+- Password reset functionality
+- Profile picture upload
+- Account statements/reports
+- Admin dashboard
+- Rate limiting
+- Request logging
 
 ---
 
+**Happy Coding!**
