@@ -4,17 +4,6 @@ A full-stack digital wallet application built with **Node.js**, **Express**, **M
 
 ---
 
-## Table of Contents
-
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-- [API Documentation](#api-documentation)
-- [Database Schema](#database-schema)
-- [Security Features](#security-features)
-- [Testing](#testing)
-
 ---
 
 ## Features
