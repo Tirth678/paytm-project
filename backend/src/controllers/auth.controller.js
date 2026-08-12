@@ -95,4 +95,33 @@ const loginUser = async (req, res) => {
     
 }
 
-export { registerUser, loginUser };
+const updateBody = zod.object({
+    password: zod.string().optional(),
+    firstName: zod.string().optional(),
+    lastName: zod.string().optional(),
+})
+
+const updateUser = async (req, res) => {
+    try{
+        const { success } = updateBody.safeParse(req.body);
+
+        if(!success){
+            return res.status(411).json({message: "Incorrect Input"})
+        }
+
+        const updateData = { ...req.body };
+        
+        if(req.body.password){
+            updateData.password = await bcrypt.hash(req.body.password, saltRounds);
+        }
+
+        await userModel.updateOne({_id: req.userId}, updateData);
+
+        return res.json({message: "Updated successfully"});
+
+    } catch(error){
+        res.status(500).json({message: "Error while updating credentials", error: error.message})
+    }
+}
+
+export { registerUser, loginUser, updateUser };
