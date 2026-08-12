@@ -3,6 +3,7 @@ import config from "../config/config.js";
 import zod from 'zod';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import accountModel from "../models/account.model.js";
 
 const saltRounds = 10;
 
@@ -45,11 +46,18 @@ const registerUser = async (req, res) => {
 
         const userId = user._id;
 
+        await accountModel.create({
+            userId: userId,
+            balance: 1 + Math.random() * 10000 // random amount bw 1 to 10,000 INR
+        });
+
         const token = jwt.sign({
             userId
         }, config.JWT_SECRET);
 
         res.json({message: "user created successfully", token: token})
+
+
     } catch (error) {
         res.status(500).json({message: "Internal server error", error: error.message})
     }
