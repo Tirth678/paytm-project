@@ -21,7 +21,7 @@ const registerUser = async (req, res) => {
 
         if(!success){
             return res.status(411).json({
-                message: "Incorrect inputs"
+                message: "Incomplete Credintials"
             })
         }
         

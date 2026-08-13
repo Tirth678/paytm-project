@@ -11,13 +11,7 @@ const corsOption = {
 }
 
 const router = express.Router();
-
-router.get('/login', async (req, res) => {
-    res.status(200).json({message: "welcome to login"});
-})
-router.get('/user' , async (req, res) => {
-    res.status(200).json({message: "Welcome user"});
-})
+router.use(cors(corsOption));
 router.post('/user/signup', registerUser);
 router.post('/user/signin', loginUser);
 router.put('/user/update', authMiddleware, updateUser);
