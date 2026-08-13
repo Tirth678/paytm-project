@@ -2,10 +2,9 @@ import accountModel from "../models/account.model.js";
 import mongoose from 'mongoose'
 
 const getBalance = async (req, res) => {
-    const {userId} = req.body;
     try {
         const account = await accountModel.findOne({
-            userId: userId
+            userId: req.userId
         })
 
         if(!account){

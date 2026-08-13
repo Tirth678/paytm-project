@@ -1,13 +1,36 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Btn from '../components/Btn.jsx'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 function Users ()  {
-    // Replace with backend call
-    const [users, setUsers] = useState([{
-        firstName: "Harkirat",
-        lastName: "Singh",
-        _id: 1
-    }]);
+    const [users, setUsers] = useState([]);
+    const [search, setSearch] = useState('');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        
+        if (!token) {
+            navigate('/signin');
+            return;
+        }
+
+        axios.get(`http://localhost:3001/api/v1/user/bulk?filter=${search}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            setUsers(response.data.users)
+        })
+        .catch(error => {
+            console.error('Error fetching users:', error);
+            if (error.response?.status === 403) {
+                navigate('/signin');
+            }
+        })
+    }, [search, navigate])
 
     return (
         <>
@@ -16,10 +39,15 @@ function Users ()  {
             Users
         </div>
         <div className="my-2">
-            <input type="text" placeholder="Search users..." className="w-full px-2 py-1 border rounded border-slate-200"></input>
+            <input 
+                onChange={(e) => setSearch(e.target.value)}
+                type="text" 
+                placeholder="Search users..." 
+                className="w-full px-2 py-1 border rounded border-slate-200"
+            />
         </div>
         <div>
-            {users.map(user => <User user={user} />)}
+            {users.map(user => <User key={user._id} user={user} />)}
         </div>
         </div>
     </>
@@ -27,6 +55,8 @@ function Users ()  {
 }
 
 function User({user}) {
+    const navigate = useNavigate();
+
     return <div className="flex justify-between">
         <div className="flex">
             <div className="rounded-full h-12 w-12 bg-slate-200 flex justify-center mt-1 mr-2">
@@ -42,7 +72,10 @@ function User({user}) {
         </div>
 
         <div className="flex flex-col justify-center h-ful">
-            <Btn btn={"Send Money"} />
+            <Btn 
+                onClick={() => navigate(`/send?id=${user._id}&name=${user.firstName}`)} 
+                btn={"Send Money"} 
+            />
         </div>
     </div>
 }
