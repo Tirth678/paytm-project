@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_ENDPOINTS } from '../config/api.js';
 
 export const Balance = () => {
     const [balance, setBalance] = useState(0);
@@ -14,7 +15,7 @@ export const Balance = () => {
             return;
         }
 
-        axios.get('http://localhost:3001/api/v1/account', {
+        axios.get(API_ENDPOINTS.GET_BALANCE, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

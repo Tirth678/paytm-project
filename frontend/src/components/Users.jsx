@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import Btn from '../components/Btn.jsx'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { API_ENDPOINTS } from '../config/api.js'
 
 function Users ()  {
     const [users, setUsers] = useState([]);
@@ -16,7 +17,7 @@ function Users ()  {
             return;
         }
 
-        axios.get(`http://localhost:3001/api/v1/user/bulk?filter=${search}`, {
+        axios.get(`${API_ENDPOINTS.SEARCH_USERS}?filter=${search}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

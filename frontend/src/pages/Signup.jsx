@@ -6,6 +6,7 @@ import BottomWarning from '../components/BottomWarning.jsx'
 import { useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { API_ENDPOINTS } from '../config/api.js';
 
 function Signup () {
   const [firstName, setFirstName] = useState('');
@@ -23,7 +24,7 @@ function Signup () {
         lastName: lastName
       });
       
-      const response = await axios.post('http://localhost:3001/api/v1/user/signup', {
+      const response = await axios.post(API_ENDPOINTS.SIGNUP, {
         username: email,
         password: password,
         firstName: firstName,

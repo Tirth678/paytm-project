@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { API_ENDPOINTS } from '../config/api.js';
 
 function SendMoney() {
     const [amount, setAmount] = useState('');
@@ -35,7 +36,7 @@ function SendMoney() {
         });
 
         try {
-            const response = await axios.post('http://localhost:3001/api/v1/account/transfer', 
+            const response = await axios.post(API_ENDPOINTS.TRANSFER, 
                 {
                     amount: Number(amount),
                     to: recipientId

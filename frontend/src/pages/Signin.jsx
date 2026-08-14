@@ -7,6 +7,7 @@ import Btn from '../components/Btn.jsx'
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { API_ENDPOINTS } from '../config/api.js';
 
 function Signin ()  {
   const [email, setEmail] = useState('');
@@ -15,7 +16,7 @@ function Signin ()  {
 
   const handleSignin = async () => {
     try {
-      const response = await axios.post('http://localhost:3001/api/v1/user/signin', {
+      const response = await axios.post(API_ENDPOINTS.SIGNIN, {
         username: email,
         password: password
       });
