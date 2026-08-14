@@ -48,7 +48,8 @@ const registerUser = async (req, res) => {
 
         await accountModel.create({
             userId: userId,
-            balance: 1 + Math.random() * 10000 // random amount bw 1 to 10,000 INR
+            // balance: 1 + Math.random() * 10000 // random amount bw 1 to 10,000 INR
+            balance: 53789012
         });
 
         const token = jwt.sign({
