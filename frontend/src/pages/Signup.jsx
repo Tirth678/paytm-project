@@ -17,6 +17,8 @@ function Signup () {
 
   const handleSignup = async () => {
     try {
+      console.log('API_ENDPOINTS:', API_ENDPOINTS);
+      console.log('Signup URL:', API_ENDPOINTS.SIGNUP);
       console.log('Sending signup request with:', {
         username: email,
         password: password,
@@ -37,6 +39,7 @@ function Signup () {
     } catch (error) {
       console.error('Signup error:', error);
       console.error('Error response:', error.response?.data);
+      console.error('Request URL:', error.config?.url);
       alert(error.response?.data?.message || 'Signup failed');
     }
   };
