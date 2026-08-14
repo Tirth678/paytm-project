@@ -1,6 +1,6 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
+  "name": "paytm-backend",
+  "version": "1.5.4",
   "description": "",
   "main": "index.js",
   "type": "module",

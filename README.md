@@ -4,34 +4,50 @@ A full-stack digital wallet application built with **Node.js**, **Express**, **M
 
 ---
 
+## Table of Contents
+
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [API Documentation](#api-documentation)
+- [Frontend Routes](#frontend-routes)
+- [Database Schema](#database-schema)
+- [Security Features](#security-features)
+- [Testing](#testing)
+
+---
+
 ## Features
 
 ### User Management
 - User registration with email validation
 - Secure login with JWT authentication
 - Update user profile (name, password)
-- Search users by name (partial matching)
+- Search users by name (partial matching, real-time)
 
 ### Account & Transactions
 - Auto-create account with random balance (Rs.1 - Rs.10,000) on signup
-- View account balance
+- View account balance in real-time
 - Transfer money to other users
 - Atomic transactions with MongoDB sessions
 - Insufficient balance validation
+- Invalid recipient validation
 
 ### Security
-- Password hashing with bcrypt
+- Password hashing with bcrypt (10 salt rounds)
 - JWT token-based authentication
 - Protected routes with auth middleware
-- CORS enabled
+- CORS enabled for cross-origin requests
 - Input validation with Zod
+- Secure token storage in localStorage
 
 ---
 
 ## Tech Stack
 
 ### Backend
-- **Runtime:** Node.js (ES Modules)
+- **Runtime:** Node.js v16+ (ES Modules)
 - **Framework:** Express.js
 - **Database:** MongoDB (Mongoose ODM)
 - **Authentication:** JWT (JSON Web Tokens)
@@ -40,7 +56,10 @@ A full-stack digital wallet application built with **Node.js**, **Express**, **M
 - **Security:** CORS
 
 ### Frontend
-- **Framework:** React
+- **Framework:** React 18
+- **Routing:** React Router DOM v6
+- **HTTP Client:** Axios
+- **Styling:** Tailwind CSS
 - **Build Tool:** Vite
 
 ---
@@ -70,7 +89,28 @@ paytm/
 │   ├── .env                         # Environment variables
 │   └── package.json
 └── frontend/
-    └── (React app)
+    ├── src/
+    │   ├── components/
+    │   │   ├── AppBar.jsx           # Navigation bar
+    │   │   ├── Balance.jsx          # Balance display
+    │   │   ├── BottomWarning.jsx    # Footer links
+    │   │   ├── Btn.jsx              # Button component
+    │   │   ├── Heading.jsx          # Page heading
+    │   │   ├── Input.jsx            # Input field
+    │   │   ├── SubHeading.jsx       # Subheading
+    │   │   └── Users.jsx            # User search & list
+    │   ├── pages/
+    │   │   ├── Dashboard.jsx        # User dashboard
+    │   │   ├── Home.jsx             # Landing page
+    │   │   ├── SendMoney.jsx        # Money transfer page
+    │   │   ├── Signin.jsx           # Login page
+    │   │   └── Signup.jsx           # Registration page
+    │   ├── App.jsx                  # Main app component
+    │   ├── main.jsx                 # App entry point
+    │   └── index.css                # Global styles
+    ├── index.html
+    ├── package.json
+    └── vite.config.js
 ```
 
 ---
@@ -84,9 +124,9 @@ paytm/
 
 ### Backend Setup
 
-1. **Clone the repository**
+1. **Navigate to backend folder**
    ```bash
-   cd paytm/backend
+   cd backend
    ```
 
 2. **Install dependencies**
@@ -112,9 +152,9 @@ paytm/
 
 ### Frontend Setup
 
-1. **Navigate to frontend**
+1. **Navigate to frontend folder**
    ```bash
-   cd ../frontend
+   cd frontend
    ```
 
 2. **Install dependencies**
@@ -126,6 +166,8 @@ paytm/
    ```bash
    npm run dev
    ```
+   
+   Frontend will run on `http://localhost:5173`
 
 ---
 
@@ -136,10 +178,12 @@ paytm/
 http://localhost:3001/api/v1
 ```
 
-### Authentication
+### Authentication Endpoints
 
 #### 1. Sign Up
 **POST** `/user/signup`
+
+**Headers:** `Content-Type: application/json`
 
 **Request Body:**
 ```json
@@ -161,7 +205,7 @@ http://localhost:3001/api/v1
 
 **Notes:**
 - Creates user account
-- Automatically creates wallet account with random balance (Rs.1 - Rs.10,000)
+- Automatically creates wallet account with random balance (Rs.1-Rs.10,000)
 - Returns JWT token
 - Names must be at least 6 characters
 
@@ -169,6 +213,8 @@ http://localhost:3001/api/v1
 
 #### 2. Sign In
 **POST** `/user/signin`
+
+**Headers:** `Content-Type: application/json`
 
 **Request Body:**
 ```json
@@ -191,10 +237,9 @@ http://localhost:3001/api/v1
 #### 3. Update User Profile
 **PUT** `/user/update`
 
-**Headers:**
-```
-Authorization: Bearer <token>
-```
+**Headers:** 
+- `Content-Type: application/json`
+- `Authorization: Bearer <your_token>`
 
 **Request Body:**
 ```json
@@ -223,10 +268,7 @@ Authorization: Bearer <token>
 #### 4. Search Users
 **GET** `/user/bulk?filter=<search_term>`
 
-**Headers:**
-```
-Authorization: Bearer <token>
-```
+**Headers:** `Authorization: Bearer <your_token>`
 
 **Example:**
 ```bash
@@ -251,6 +293,7 @@ GET /user/bulk?filter=john
 - Case-insensitive partial matching
 - Searches in both firstName and lastName
 - Passwords are excluded from response
+- Empty filter returns all users
 
 ---
 
@@ -259,10 +302,7 @@ GET /user/bulk?filter=john
 #### 5. Get Account Balance
 **GET** `/account`
 
-**Headers:**
-```
-Authorization: Bearer <token>
-```
+**Headers:** `Authorization: Bearer <your_token>`
 
 **Response:**
 ```json
@@ -276,10 +316,9 @@ Authorization: Bearer <token>
 #### 6. Transfer Money
 **POST** `/account/transfer`
 
-**Headers:**
-```
-Authorization: Bearer <token>
-```
+**Headers:** 
+- `Content-Type: application/json`
+- `Authorization: Bearer <your_token>`
 
 **Request Body:**
 ```json
@@ -314,6 +353,24 @@ Authorization: Bearer <token>
 - Uses MongoDB transactions for atomicity
 - Validates sender balance before transfer
 - Validates recipient account exists
+- Rolls back on any failure
+
+---
+
+## Frontend Routes
+
+| Route | Component | Description | Protected |
+|-------|-----------|-------------|-----------|
+| `/` | Home | Landing page | No |
+| `/signup` | Signup | User registration | No |
+| `/signin` | Signin | User login | No |
+| `/dashboard` | Dashboard | User dashboard with balance & user search | Yes |
+| `/send?id=<userId>&name=<name>` | SendMoney | Money transfer page | Yes |
+
+**Protected Routes:**
+- Automatically redirect to `/signin` if no valid token
+- Token is stored in localStorage
+- Token includes userId payload
 
 ---
 
@@ -339,6 +396,10 @@ Authorization: Bearer <token>
 }
 ```
 
+**Relationship:**
+- One-to-One: Each user has exactly one account
+- Account is created automatically during user signup
+
 ---
 
 ## Security Features
@@ -346,28 +407,36 @@ Authorization: Bearer <token>
 ### Password Security
 - Passwords hashed using **bcrypt** with 10 salt rounds
 - Never stored or transmitted in plain text
+- Passwords automatically hashed on update
 
 ### Authentication
 - JWT tokens for stateless authentication
 - Token includes userId payload
 - Protected routes verify token via middleware
+- Token stored in localStorage on client
 
 ### Input Validation
 - **Zod** schema validation for all inputs
 - Email format validation
 - Password strength requirements
-- Field length restrictions
+- Field length restrictions (firstName, lastName min 6 chars)
 
 ### Transaction Safety
 - MongoDB sessions for atomic operations
-- Rollback on failure
+- Automatic rollback on failure
 - Balance validation before transfer
+- Recipient validation before transfer
+
+### CORS
+- Configured to allow frontend origin
+- Credentials support enabled
+- Proper headers for cross-origin requests
 
 ---
 
 ## Testing
 
-### Test with cURL
+### Manual Testing with cURL
 
 **1. Create User**
 ```bash
@@ -397,7 +466,13 @@ curl -X GET http://localhost:3001/api/v1/account \
   -H "Authorization: Bearer <your_token>"
 ```
 
-**4. Transfer Money**
+**4. Search Users**
+```bash
+curl -X GET "http://localhost:3001/api/v1/user/bulk?filter=test" \
+  -H "Authorization: Bearer <your_token>"
+```
+
+**5. Transfer Money**
 ```bash
 curl -X POST http://localhost:3001/api/v1/account/transfer \
   -H "Content-Type: application/json" \
@@ -407,6 +482,18 @@ curl -X POST http://localhost:3001/api/v1/account/transfer \
     "to": "<recipient_user_id>"
   }'
 ```
+
+### Testing Workflow
+
+1. **Sign up** two users from the frontend
+2. **Sign in** with the first user
+3. **View balance** on the dashboard
+4. **Search** for the second user
+5. Click **"Send Money"** on the second user
+6. **Enter amount** and click "Initiate Transfer"
+7. **Check balance** - should be reduced
+8. **Sign out** and sign in as the second user
+9. **Check balance** - should be increased
 
 ---
 
@@ -441,15 +528,75 @@ const authMiddleware = (req, res, next) => {
 };
 ```
 
+### Real-time Search
+User search updates as you type using useEffect:
+```javascript
+useEffect(() => {
+  axios.get(`/api/v1/user/bulk?filter=${search}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  .then(response => setUsers(response.data.users))
+}, [search])
+```
+
 ---
 
 ## Environment Variables
 
+### Backend (.env)
 ```env
 PORT=3001                           # Server port
 MONGO_URI=mongodb+srv://...         # MongoDB connection string
-JWT_SECRET=your_secret_key          # JWT signing secret
+JWT_SECRET=your_secret_key          # JWT signing secret (keep this secure!)
 ```
+
+**Generate a secure JWT_SECRET:**
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+---
+
+## Common Issues & Troubleshooting
+
+### CORS Errors
+- Make sure backend server is running on port 3001
+- Frontend should be on port 5173 (Vite default)
+- Check if CORS is enabled in backend index.js
+
+### "Invalid account" Error
+- Recipient user must have an account (created during signup)
+- Make sure you're sending to a valid user ID
+- Both users must be registered through the signup endpoint
+
+### Balance Not Showing
+- Check if JWT token is in localStorage
+- Verify Authorization header is being sent
+- Check browser console for errors
+
+### Transfer Fails
+- Ensure sufficient balance
+- Verify recipient user ID is correct
+- Check if amount is a positive number
+
+---
+
+## Future Enhancements
+
+- Transaction history with timestamps
+- Email notifications for transfers
+- Two-factor authentication (2FA)
+- Password reset functionality
+- Profile picture upload
+- Account statements/reports (PDF export)
+- Admin dashboard for monitoring
+- Rate limiting for API endpoints
+- Request logging with Morgan
+- User activity tracking
+- Multi-currency support
+- Scheduled/recurring payments
+- QR code-based transfers
+- Mobile app with React Native
 
 ---
 
@@ -471,17 +618,14 @@ Built by Tirth
 
 ---
 
-## Future Enhancements
+## Acknowledgments
 
-- Transaction history
-- Email notifications
-- Two-factor authentication
-- Password reset functionality
-- Profile picture upload
-- Account statements/reports
-- Admin dashboard
-- Rate limiting
-- Request logging
+- MongoDB for the robust NoSQL database
+- Express.js for the powerful backend framework
+- React for the interactive UI
+- Tailwind CSS for beautiful styling
+- JWT for secure authentication
+- Bcrypt for password security
 
 ---
 
