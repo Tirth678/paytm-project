@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API_ENDPOINTS } from '../config/api.js';
 
-export const Balance = () => {
+function Balance() {
     const [balance, setBalance] = useState(0);
     const navigate = useNavigate();
 
@@ -40,3 +40,4 @@ export const Balance = () => {
         </div>
     </div>
 }
+export default Balance;
