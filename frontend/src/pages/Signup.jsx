@@ -7,6 +7,7 @@ import { useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { API_ENDPOINTS } from '../config/api.js';
+import { ShaderBackground } from '../components/ui/color-panels.jsx';
 
 function Signup () {
   const [firstName, setFirstName] = useState('');
@@ -46,8 +47,9 @@ function Signup () {
 
   return (
     <>
-    <div className="flex justify-center mt-50">
-      <div className="h-140 w-88 rounded-2xl border-2">
+    <div className="relative min-h-screen flex justify-center items-center overflow-hidden">
+      <ShaderBackground className="absolute inset-0 z-0" />
+      <div className="relative z-10 h-140 w-88 rounded-2xl shadow-md bg-white/90 backdrop-blur-sm shadow-2xl">
         <Heading title={'Sign Up'}/>
         <SubHeading sub1={'Enter your information to create an'} sub2={'account'}/>
         <Input onChange={
@@ -71,3 +73,4 @@ function Signup () {
 };
 
 export default Signup
+

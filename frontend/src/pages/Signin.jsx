@@ -1,4 +1,5 @@
 
+
 import Heading from '../components/Heading.jsx'
 import SubHeading from '../components/SubHeading'
 import Input from '../components/Input'
@@ -8,6 +9,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { API_ENDPOINTS } from '../config/api.js';
+import { ShaderBackground } from '../components/ui/color-panels.jsx';
+
 
 function Signin ()  {
   const [email, setEmail] = useState('');
@@ -30,8 +33,9 @@ function Signin ()  {
 
   return (
     <>
-    <div className="flex justify-center mt-50">
-      <div className="h-110 w-88 rounded-2xl border-2">
+    <div className="relative min-h-screen flex justify-center items-center overflow-hidden">
+      <ShaderBackground className="absolute inset-0 z-0" />
+      <div className="relative z-10 h-110 w-88 rounded-2xl border-2 bg-white/90 backdrop-blur-sm shadow-2xl">
         <Heading title={'Sign In'}/>
         <SubHeading sub1={'Enter your credentials to access'} sub2={'your account'}/>
         <Input onChange={(e) => setEmail(e.target.value)} label="email" id="mail" for="mail" type={"text"} placeholder={"enter email"}/>
