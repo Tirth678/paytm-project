@@ -138,7 +138,7 @@ paytm/
    
    Create a `.env` file in the `backend` folder:
    ```env
-   PORT=3001
+   PORT=3000
    MONGO_URI=your_mongodb_connection_string
    JWT_SECRET=your_secret_key_here
    ```
@@ -148,7 +148,7 @@ paytm/
    npm run dev
    ```
    
-   Server will run on `http://localhost:3001`
+   Server will run on `http://localhost:3000`
 
 ### Frontend Setup
 
@@ -175,7 +175,7 @@ paytm/
 
 ### Base URL
 ```
-http://localhost:3001/api/v1
+http://localhost:3000/api/v1
 ```
 
 ### Authentication Endpoints
@@ -440,7 +440,7 @@ GET /user/bulk?filter=john
 
 **1. Create User**
 ```bash
-curl -X POST http://localhost:3001/api/v1/user/signup \
+curl -X POST http://localhost:3000/api/v1/user/signup \
   -H "Content-Type: application/json" \
   -d '{
     "username": "test@example.com",
@@ -452,7 +452,7 @@ curl -X POST http://localhost:3001/api/v1/user/signup \
 
 **2. Login**
 ```bash
-curl -X POST http://localhost:3001/api/v1/user/signin \
+curl -X POST http://localhost:3000/api/v1/user/signin \
   -H "Content-Type: application/json" \
   -d '{
     "username": "test@example.com",
@@ -462,19 +462,19 @@ curl -X POST http://localhost:3001/api/v1/user/signin \
 
 **3. Get Balance**
 ```bash
-curl -X GET http://localhost:3001/api/v1/account \
+curl -X GET http://localhost:3000/api/v1/account \
   -H "Authorization: Bearer <your_token>"
 ```
 
 **4. Search Users**
 ```bash
-curl -X GET "http://localhost:3001/api/v1/user/bulk?filter=test" \
+curl -X GET "http://localhost:3000/api/v1/user/bulk?filter=test" \
   -H "Authorization: Bearer <your_token>"
 ```
 
 **5. Transfer Money**
 ```bash
-curl -X POST http://localhost:3001/api/v1/account/transfer \
+curl -X POST http://localhost:3000/api/v1/account/transfer \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <your_token>" \
   -d '{
@@ -545,7 +545,7 @@ useEffect(() => {
 
 ### Backend (.env)
 ```env
-PORT=3001                           # Server port
+PORT=3000                           # Server port
 MONGO_URI=mongodb+srv://...         # MongoDB connection string
 JWT_SECRET=your_secret_key          # JWT signing secret (keep this secure!)
 ```

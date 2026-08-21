@@ -22,13 +22,9 @@ app.get('/', async (req, res) => {
     res.status(200).json({message: "server is active and healthy"});
 });
 
-// For local development
-if (process.env.NODE_ENV !== 'production') {
-    const PORT = config.PORT || 3001;
-    app.listen(PORT, () => {
-        console.log(`Server active on ${PORT}`);
-    });
-}
+const PORT = config.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server active on ${PORT}`);
+});
 
-// Export for Vercel serverless
 export default app;
