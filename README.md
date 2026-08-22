@@ -581,25 +581,6 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 
 ---
 
-## Future Enhancements
-
-- Transaction history with timestamps
-- Email notifications for transfers
-- Two-factor authentication (2FA)
-- Password reset functionality
-- Profile picture upload
-- Account statements/reports (PDF export)
-- Admin dashboard for monitoring
-- Rate limiting for API endpoints
-- Request logging with Morgan
-- User activity tracking
-- Multi-currency support
-- Scheduled/recurring payments
-- QR code-based transfers
-- Mobile app with React Native
-
----
-
 ## Contributing
 
 Feel free to submit issues and pull requests!
